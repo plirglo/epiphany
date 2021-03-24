@@ -20,7 +20,21 @@ but upgrade for v0.3.1 is not possible due to the open [issue](https://github.co
 - repository: Adds the repository role needed for component installation in current Epiphany version
 - image_registry: Adds the image_registry role needed for offline installation in current Epiphany version
 
-*Note: The component upgrade takes the existing Ansible build output and based on that performs the upgrade of the currently supported components. If you need to upgrade your entire Epiphany cluster a **manual** upgrade of the input yaml is needed to the latest specification which then should be applied with `epicli apply...` after the offline upgrade which is described here.*
+*Note: The component upgrade takes the existing Ansible build output and based on that performs the upgrade of the currently supported components. If you need to upgrade your entire Epiphany cluster a **manual** adjustment of the input yaml is needed to the latest specification which then should be applied with `epicli apply...` after the upgrade which is described here. 
+*
+
+*Note about images' versions: Currently Epiphany does not support image's version upgrade during the process described above. Before you run `epicli apply...` on already upgraded environment you should make sure that you set up versions of images used on machines according to versions used in pre-upgrade cluster (this needs to be set up manually in configuration yaml file):*
+
+```yaml
+kind: infrastructure/virtual-machine
+  specification:
+    storage_image_reference:
+      publisher: Canonical
+      offer: UbuntuServer
+      sku: 18.04-LTS
+      version: "18.04.202006101"  # <-- Use version used for cluster creation (pre-upgrade)
+```
+
 
 ### Online upgrade
 
